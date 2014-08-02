@@ -6,9 +6,9 @@
 
 import datetime
 import pprint
-from twitter import *
+from gmail import Gmail
 
-class UtIntfTwitter(object):
+class UtIntfGmail(object):
     def __init__(self, dictCreds):
         self.init(dictCreds)
         pass

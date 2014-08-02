@@ -9,14 +9,13 @@ import pprint
 from gmail import Gmail
 
 class UtIntfGmail(object):
-    def __init__(self, dictCreds):
-        self.init(dictCreds)
+    def __init__(self, username, password):
+        self.init(username, password)
         pass
     
-    def init(self, dictCreds):
-        auth = OAuth(dictCreds['oauthToken'], dictCreds['oauthSecret'], dictCreds['consumerToken'], dictCreds['consumerSecret'])
-        
-        self.__api_Twit = Twitter(auth=auth)
+    def init(self, username, password):
+        self.__api_Gmail = Gmail()
+        self.__api_Gmail.login(username, password)
         pass
     
     def exClassMethod(self):

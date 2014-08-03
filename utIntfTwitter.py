@@ -5,7 +5,10 @@
 
 NOTES:
 
-https://pypi.python.org/pypi/twitter
+Wraps: https://pypi.python.org/pypi/twitter (docs: https://dev.twitter.com/docs/api/1.1)
+
+Handy: http://www.jsoneditoronline.org
+Investigate: https://github.com/vinta/awesome-python
 """
 
 import datetime

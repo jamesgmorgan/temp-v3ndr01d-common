@@ -9,24 +9,30 @@ import pprint
 from gmail import Gmail
 
 class UtIntfGmail(object):
-    def __init__(self, username, password):
-        self.init(username, password)
+    def __init__(self, dictCreds):
+        self.init(dictCreds)
         pass
     
-    def init(self, username, password):
+    def init(self, dictCreds):
         self.__api_Gmail = Gmail()
-        self.__api_Gmail.login(username, password)
+        self.__api_Gmail.login(dictCreds['username'], dictCreds['password'])
         pass
     
-    def exClassMethod(self):
-        pprint.pprint(self.__api_Twit.statuses.user_timeline(screen_name="changetip", count=1))
-        return True 
+    def getEmails(self, user):
+        bRet = True
+        bodyList = []
+        mailList = self.__api_Gmail.inbox().mail(unread=True, sender=user)
+        for m in mailList:
+            m.fetch()
+            bodyList.append(m.body)
+        
+        return bRet, bodyList
     
 def main():
-    dictCreds = {'oauthToken':r'119071459-5aqC11gJr7dWM3CV7hIfBRafRbqP61H2re9FMJ5G', 'oauthSecret':r'lbEl0qGss9JufUdLmBAYmSTD8Y2yRxTPFPIjZxBseiRZX',
-             'consumerToken':r'LqoiTNZ0jPlJcYINW16Q', 'consumerSecret':'nKV112bUdsDKy31F8zbfEvO7UZERwHMW1LvWlF66X5w'}
-    ut_intf_twitter = UtIntfTwitter(dictCreds)
-    bRet = ut_intf_twitter.exClassMethod()
+    dictCreds = {'username':r'v3ndr01d', 'password':r'6@OwA7wMB42BF^K&qLgC'}
+    ut_intf_gmail = UtIntfGmail(dictCreds)
+    bRet, bodyList = ut_intf_gmail.getEmails("support@changetip.com")
+    pass
 
 if  __name__ == "__main__":
     main()

@@ -2,6 +2,10 @@
 
 """
 2014-08-02 JGM Created.
+
+NOTES:
+
+https://pypi.python.org/pypi/twitter
 """
 
 import datetime
@@ -20,7 +24,11 @@ class UtIntfTwitter(object):
         pass
     
     def exClassMethod(self):
-        pprint.pprint(self.__api_Twit.statuses.user_timeline(screen_name="changetip", count=1))
+        import json
+        #pprint.pprint(self.__api_Twit.statuses.user_timeline(screen_name="changetip", count=1))
+        for i in range(1):
+            res = self.__api_Twit.search.tweets(q="#pycon")
+            print json.dumps(res)
         return True 
     
 def main():

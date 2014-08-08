@@ -9,9 +9,11 @@ Wraps: https://pypi.python.org/pypi/twitter (docs: https://dev.twitter.com/docs/
 
 Handy: http://www.jsoneditoronline.org
 Investigate: https://github.com/vinta/awesome-python
+Do: http://stackoverflow.com/questions/2397822/what-is-the-best-practice-for-dealing-with-passwords-in-github
 """
 
 import datetime
+import json
 import pprint
 from twitter import *
 
@@ -21,6 +23,14 @@ class UtIntfTwitter(object):
         pass
     
     def init(self, dictCreds):
+        if not dictCreds:
+            try:
+                jsonFile = __file__ + ".json"
+                dictCredsJson = open(jsonFile, 'r').read()
+                dictCreds = json.loads(dictCredsJson)
+            except:
+                raise
+            
         auth = OAuth(dictCreds['oauthToken'], dictCreds['oauthSecret'], dictCreds['consumerToken'], dictCreds['consumerSecret'])
         
         self.__api_Twit = Twitter(auth=auth)
@@ -30,14 +40,19 @@ class UtIntfTwitter(object):
         import json
         #pprint.pprint(self.__api_Twit.statuses.user_timeline(screen_name="changetip", count=1))
         for i in range(1):
-            res = self.__api_Twit.search.tweets(q="#pycon")
-            print json.dumps(res)
+            res = self.__api_Twit.search.tweets(q="#payitforward", result_type="recent")
+            statuses = res['statuses']
+            for stat in statuses:
+                created = stat['created_at']
+                user = stat['user']['screen_name']
+                text = stat['text'].encode('unicode-escape')
+                line = "%s %s %s" % (created, user, text)
+                print line
+            #print json.dumps(res)
         return True 
     
 def main():
-    dictCreds = {'oauthToken':r'119071459-5aqC11gJr7dWM3CV7hIfBRafRbqP61H2re9FMJ5G', 'oauthSecret':r'lbEl0qGss9JufUdLmBAYmSTD8Y2yRxTPFPIjZxBseiRZX',
-             'consumerToken':r'LqoiTNZ0jPlJcYINW16Q', 'consumerSecret':'nKV112bUdsDKy31F8zbfEvO7UZERwHMW1LvWlF66X5w'}
-    ut_intf_twitter = UtIntfTwitter(dictCreds)
+    ut_intf_twitter = UtIntfTwitter(None)
     bRet = ut_intf_twitter.exClassMethod()
 
 if  __name__ == "__main__":

@@ -17,8 +17,5 @@ def main():
     ut_class = utClass()
     bRet = ut_class.a_class_method()
 
-if  __name__ == "__main__":
+if __name__ == "__main__":
     main()
-
-    
-
